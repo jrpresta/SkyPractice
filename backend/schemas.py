@@ -8,3 +8,11 @@ class TherapistCreate(BaseModel):
 
     class Config:
         orm_mode = True
+
+class TherapistReturn(BaseModel):
+    id: int
+    username: str
+    email: str
+
+    class Config:
+        orm_mode = True
