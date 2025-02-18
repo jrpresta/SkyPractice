@@ -4,8 +4,6 @@ import os
 # Add the backend directory to the system path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-print(sys.path)
-
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
