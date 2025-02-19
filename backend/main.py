@@ -4,7 +4,13 @@ from sqlalchemy.orm import Session
 from backend.database import SessionLocal, engine
 from backend import models, crud, schemas
 
-"""uvicorn backend.main:app --reload"""
+"""
+Common Commands:
+uvicorn backend.main:app --reload
+
+alembic revision --autogenerate -m "Initial migration"
+alembic upgrade head
+"""
 
 # Create all the tables in the database
 models.Base.metadata.create_all(bind=engine)
@@ -35,8 +41,26 @@ def register_therapist(therapist: schemas.TherapistCreate, db: Session = Depends
     db_therapist = crud.create_therapist(db=db, therapist=therapist)
     return {"id": db_therapist.id, "username": db_therapist.username, "email": db_therapist.email}
 
+
+@app.post('/clients/')
+def create_client(client: schemas.ClientCreate, db: Session = Depends(get_db)):
+    db_client = crud.create_client(db=db, client=client)
+    return {"id": db_client.id, "name": db_client.name, "contact_info": db_client.contact_info}
+
+
+@app.post('/clients/{client_id}/notes/')
+def create_note(client_id: int, note: schemas.NoteCreate, db: Session = Depends(get_db)):
+    db_note = crud.create_note(db=db, note=note, client_id=client_id)
+    return {"id": db_note.id}
+
+
+@app.get('/clients/{client_id}/notes/')
+def get_notes(client_id: int, db: Session = Depends(get_db)):
+    notes = crud.get_notes(db=db, client_id=client_id)
+    return notes
+
+
 def main():
-    # db = get_db()
     return
 
 if __name__ == '__main__':

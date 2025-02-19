@@ -16,3 +16,29 @@ class TherapistReturn(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class ClientCreate(BaseModel):
+    name: str
+    contact_info: str
+
+    class Config:
+        orm_mode = True
+
+
+class ClientReturn(BaseModel):
+    id: int
+    name: str
+    contact_info: str
+
+
+class NoteCreate(BaseModel):
+    content: str
+    timestamp: str
+
+
+class NoteReturn(BaseModel):
+    id: int
+
+    class Config:
+        orm_mode = True
